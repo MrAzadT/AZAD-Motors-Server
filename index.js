@@ -19,6 +19,15 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+    await client.connect();
+    const database = client.db("carsell");
+    const carsDataCollection = database.collection("car");
+
+    app.get("/myData", async (req, res) => {
+      const cursor = carsDataCollection.find({});
+      const data = await cursor.toArray();
+      res.send(data);
+    });
   } finally {
     // await client.close();
   }
