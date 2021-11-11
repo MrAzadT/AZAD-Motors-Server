@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const app = express();
 const cors = require("cors");
 require("dotenv").config();
@@ -23,9 +23,24 @@ async function run() {
     const carsCollection = database.collection("cars");
 
     app.get("/cars", async (req, res) => {
-      const cursor = carsCollection.find({});
-      const data = await cursor.toArray();
-      res.send(data);
+      try {
+        const cursor = carsCollection.find({});
+        const data = await cursor.toArray();
+        res.send(data);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    app.get("/carsData/:id", async (req, res) => {
+      const { id } = req.params;
+      console.log(id);
+      try {
+        const singleData = await carsCollection.findOne({ _id: ObjectId(id) });
+        res.json(singleData);
+      } catch (error) {
+        res.status(404).json({ message: error.message });
+      }
     });
   } finally {
     // await client.close();
