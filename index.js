@@ -50,7 +50,7 @@ async function run() {
     app.post("/orders", async (req, res) => {
       const data = req.body;
       try {
-        const result = await carsCollection.insertOne(data);
+        const result = await allOrderCollection.insertOne(data);
         res.status(200).json(result);
       } catch (err) {
         console.log(err);
@@ -81,15 +81,15 @@ async function run() {
     });
 
     // single order delete
-    app.get("/orderDelete/:id", async (req, res) => {
-      const { id } = req.params;
-      try {
-        const result = allOrderCollection.deleteOne({ _id: ObjectId(id) });
-        res.status(200).json({ message: "Deleted successfully" });
-      } catch (err) {
-        console.log(err);
-      }
-    });
+    // app.get("/orderDelete/:id", async (req, res) => {
+    //   const { id } = req.params;
+    //   try {
+    //     const result = allOrderCollection.deleteOne({ _id: ObjectId(id) });
+    //     res.status(200).json({ message: "Deleted successfully" });
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // });
   } finally {
     // await client.close();
   }
