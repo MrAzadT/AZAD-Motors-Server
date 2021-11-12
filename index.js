@@ -50,6 +50,17 @@ async function run() {
     app.post("/orders", async (req, res) => {
       const data = req.body;
       try {
+        const result = await carsCollection.insertOne(data);
+        res.status(200).json(result);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    //  add a  product
+    app.post("/cars", async (req, res) => {
+      const data = req.body;
+      try {
         const result = await allOrderCollection.insertOne(data);
         res.status(200).json(result);
       } catch (err) {
