@@ -21,7 +21,9 @@ async function run() {
     await client.connect();
     const database = client.db("carSell");
     const carsCollection = database.collection("cars");
+    const allOrderCollection = database.collection("orders");
 
+    // get cars data
     app.get("/cars", async (req, res) => {
       try {
         const cursor = carsCollection.find({});
@@ -32,14 +34,26 @@ async function run() {
       }
     });
 
+    // get single car data
     app.get("/carsData/:id", async (req, res) => {
       const { id } = req.params;
       console.log(id);
       try {
         const singleData = await carsCollection.findOne({ _id: ObjectId(id) });
         res.json(singleData);
-      } catch (error) {
-        res.status(404).json({ message: error.message });
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    //  post order
+    app.post("/orders", async (req, res) => {
+      const data = req.body;
+      try {
+        const result = await allOrderCollection.insertOne(data);
+        res.status(200).json(result);
+      } catch (err) {
+        console.log(err);
       }
     });
   } finally {
