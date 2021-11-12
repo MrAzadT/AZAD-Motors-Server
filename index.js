@@ -114,6 +114,17 @@ async function run() {
         console.log(err);
       }
     });
+
+    // get all orders
+    app.get("/orders", async (req, res) => {
+      try {
+        const cursor = allOrderCollection.find({});
+        const data = await cursor.toArray();
+        res.send(data);
+      } catch (err) {
+        console.log(err);
+      }
+    });
   } finally {
     // await client.close();
   }
