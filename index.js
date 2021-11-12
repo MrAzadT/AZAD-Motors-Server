@@ -61,8 +61,31 @@ async function run() {
     app.post("/cars", async (req, res) => {
       const data = req.body;
       try {
-        const result = await allOrderCollection.insertOne(data);
+        const result = await carsCollection.insertOne(data);
         res.status(200).json(result);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    //  get single order
+    app.get("/orders/:email", async (req, res) => {
+      const { email } = req.params;
+      try {
+        const result = allOrderCollection.find({ email: email });
+        const data = await result.toArray();
+        res.status(200).json(data);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    // single order delete
+    app.get("/orderDelete/:id", async (req, res) => {
+      const { id } = req.params;
+      try {
+        const result = allOrderCollection.deleteOne({ _id: ObjectId(id) });
+        res.status(200).json({ message: "Deleted successfully" });
       } catch (err) {
         console.log(err);
       }
