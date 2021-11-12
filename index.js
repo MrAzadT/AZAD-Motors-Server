@@ -22,6 +22,7 @@ async function run() {
     const database = client.db("carSell");
     const carsCollection = database.collection("cars");
     const allOrderCollection = database.collection("orders");
+    const reviewCollection = database.collection("review");
 
     // get cars data
     app.get("/cars", async (req, res) => {
@@ -90,6 +91,29 @@ async function run() {
     //     console.log(err);
     //   }
     // });
+
+    //  add review
+    app.post("/review", async (req, res) => {
+      const data = req.body;
+      try {
+        const result = await reviewCollection.insertOne(data);
+        res.status(200).json(result);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    // get reviews
+
+    app.get("/reviews", async (req, res) => {
+      try {
+        const cursor = reviewCollection.find({});
+        const data = await cursor.toArray();
+        res.send(data);
+      } catch (err) {
+        console.log(err);
+      }
+    });
   } finally {
     // await client.close();
   }
