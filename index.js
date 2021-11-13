@@ -97,7 +97,7 @@ async function run() {
       const { id } = req.params;
       try {
         await carsCollection.deleteOne({ _id: ObjectId(id) });
-        res.status(200).json({ message: "successly deleted" });
+        res.status(200).json({ message: " deleted" });
       } catch (err) {
         console.log(err);
       }
