@@ -92,7 +92,7 @@ async function run() {
         console.log(err);
       }
     });
-    // single Product delete
+    // single Products delete
     app.delete("/productDelete/:id", async (req, res) => {
       const { id } = req.params;
       try {
