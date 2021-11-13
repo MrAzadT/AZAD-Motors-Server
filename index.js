@@ -23,6 +23,7 @@ async function run() {
     const carsCollection = database.collection("cars");
     const allOrderCollection = database.collection("orders");
     const reviewCollection = database.collection("review");
+    const adminCollection = database.collection("admin");
 
     // get cars data
     app.get("/cars", async (req, res) => {
@@ -82,15 +83,15 @@ async function run() {
     });
 
     // single order delete
-    // app.get("/orderDelete/:id", async (req, res) => {
-    //   const { id } = req.params;
-    //   try {
-    //     const result = allOrderCollection.deleteOne({ _id: ObjectId(id) });
-    //     res.status(200).json({ message: "Deleted successfully" });
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // });
+    app.delete("/orderDelete/:id", async (req, res) => {
+      const { id } = req.params;
+      try {
+        await allOrderCollection.deleteOne({ _id: ObjectId(id) });
+        res.status(200).json({ message: "successly deleted" });
+      } catch (err) {
+        console.log(err);
+      }
+    });
 
     //  add review
     app.post("/review", async (req, res) => {
@@ -119,6 +120,29 @@ async function run() {
     app.get("/orders", async (req, res) => {
       try {
         const cursor = allOrderCollection.find({});
+        const data = await cursor.toArray();
+        res.send(data);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    //  Make an Admin
+    app.post("/admin", async (req, res) => {
+      const data = req.body;
+
+      try {
+        const result = await adminCollection.insertOne(data);
+        res.status(200).json(result);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    // get admin
+    app.get("/admin", async (req, res) => {
+      try {
+        const cursor = adminCollection.find({});
         const data = await cursor.toArray();
         res.send(data);
       } catch (err) {
