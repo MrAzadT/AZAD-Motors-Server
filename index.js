@@ -59,7 +59,7 @@ async function run() {
       }
     });
 
-    //  add a  product
+    //  add a product
     app.post("/cars", async (req, res) => {
       const data = req.body;
       try {
@@ -70,7 +70,7 @@ async function run() {
       }
     });
 
-    //  get single order
+    //  get get single order
     app.get("/orders/:email", async (req, res) => {
       const { email } = req.params;
       try {
@@ -93,15 +93,15 @@ async function run() {
       }
     });
     // single Products delete
-    app.delete("/productDelete/:id", async (req, res) => {
-      const { id } = req.params;
-      try {
-        await carsCollection.deleteOne({ _id: ObjectId(id) });
-        res.status(200).json({ message: " deleted" });
-      } catch (err) {
-        console.log(err);
-      }
-    });
+    // app.delete("/productDelete/:id", async (req, res) => {
+    //   const { id } = req.params;
+    //   try {
+    //     await carsCollection.deleteOne({ _id: ObjectId(id) });
+    //     res.status(200).json({ message: " deleted" });
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // });
 
     //  add review
     app.post("/review", async (req, res) => {
