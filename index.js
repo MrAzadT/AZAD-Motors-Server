@@ -92,16 +92,17 @@ async function run() {
         console.log(err);
       }
     });
+
     // single Products delete
-    // app.delete("/productDelete/:id", async (req, res) => {
-    //   const { id } = req.params;
-    //   try {
-    //     await carsCollection.deleteOne({ _id: ObjectId(id) });
-    //     res.status(200).json({ message: " deleted" });
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // });
+    app.delete("/productDelete/:id", async (req, res) => {
+      const { id } = req.params;
+      try {
+        await carsCollection.deleteOne({ _id: ObjectId(id) });
+        res.status(200).json({ message: " deleted" });
+      } catch (err) {
+        console.log(err);
+      }
+    });
 
     //  add review
     app.post("/review", async (req, res) => {
